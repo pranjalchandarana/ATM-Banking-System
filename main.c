@@ -3,102 +3,93 @@
 #include <fstream>
 #include <vector>
 using namespace std;
-
-struct Account {
+struct Account{
     int accNo;
     int pin;
     double balance;
 };
-
-vector<Account> accounts;
-
-void loadAccounts() {
+vector<Account>accounts;
+void loadAccounts(){
     ifstream file("accounts.txt");
     Account a;
-    while (file >> a.accNo >> a.pin >> a.balance) {
+    while(file>>a.accNo>>a.pin>>a.balance){
         accounts.push_back(a);
     }
     file.close();
 }
-
-void saveAccounts() {
+void saveAccounts(){
     ofstream file("accounts.txt");
-    for (auto &a : accounts) {
-        file << a.accNo << " " << a.pin << " " << a.balance << endl;
+    for(auto &a:accounts){
+        file<<a.accNo<<" "<<a.pin<<" "<<a.balance<<endl;
     }
     file.close();
 }
-
-int findAccount(int accNo) {
-    for (int i = 0; i < accounts.size(); i++) {
-        if (accounts[i].accNo == accNo)
+int findAccount(int accNo){
+    for(int i=0;i<accounts.size();i++){
+        if(accounts[i].accNo==accNo)
             return i;
     }
     return -1;
 }
-
-void deposit(int index) {
+void deposit(int index){
     double amt;
-    cout << "Enter amount to deposit: ";
-    cin >> amt;
-    accounts[index].balance += amt;
-    cout << "Deposit successful\n";
+    cout<<"Enter amount to deposit: ";
+    cin>>amt;
+    accounts[index].balance+=amt;
+    cout<<"Deposit successful\n";
 }
-
-void withdraw(int index) {
+void withdraw(int index){
     double amt;
-    cout << "Enter amount to withdraw: ";
-    cin >> amt;
-
-    if (amt > accounts[index].balance) {
-        cout << "Insufficient balance\n";
-    } else {
-        accounts[index].balance -= amt;
-        cout << "Withdrawal successful\n";
+    cout<<"Enter amount to withdraw: ";
+    cin>>amt;
+    if(amt>accounts[index].balance){
+        cout<<"Insufficient balance\n";
+    }else{
+        accounts[index].balance-=amt;
+        cout<<"Withdrawal successful\n";
     }
 }
-
-void checkBalance(int index) {
-    cout << "Current Balance: " << accounts[index].balance << endl;
+void checkBalance(int index){
+    cout<<"Current Balance: "<<accounts[index].balance<<endl;
 }
-
-void adminCreateAccount() {
+void adminCreateAccount(){
     Account a;
-    cout << "Enter new Account Number: ";
-    cin >> a.accNo;
-    cout << "Set PIN: ";
-    cin >> a.pin;
-    cout << "Initial Balance: ";
-    cin >> a.balance;
-
+    cout<<"Enter new Account Number: ";
+    cin>>a.accNo;
+    cout<<"Set PIN: ";
+    cin>>a.pin;
+    cout<<"Initial Balance: ";
+    cin>>a.balance;
     accounts.push_back(a);
     saveAccounts();
-    cout << "Account created successfully\n";
+    cout<<"Account created successfully\n";
 }
-
-void userMenu(int index) {
+void userMenu(int index){
     int choice;
-    do {
-        cout << "\n1. Deposit\n2. Withdraw\n3. Check Balance\n4. Exit\n";
-        cout << "Enter choice: ";
-        cin >> choice;
-
-        switch(choice) {
-            case 1: deposit(index); break;
-            case 2: withdraw(index); break;
-            case 3: checkBalance(index); break;
+    do{
+        cout<<"\n1. Deposit\n2. Withdraw\n3. Check Balance\n4. Exit\n";
+        cout<<"Enter choice: ";
+        cin>>choice;
+        switch(choice){
+            case 1: 
+                deposit(index);
+                break;
+            case 2: 
+                withdraw(index);
+                break;
+            case 3: 
+                checkBalance(index);
+                break;
         }
-
         saveAccounts();
 
-    } while(choice != 4);
+    }while(choice!=4);
 }
-
 int main(){
     loadAccounts();
     int choice;
     do{
-        cout<<"\n==== ATM SYSTEM ====\n";
+        cout<<"\nATM SYSTEM\n";
         cout<<"1. Login\n2. Admin Create Account\n3. Exit\n";
         cout<<"Enter choice: ";
         cin>>choice;
